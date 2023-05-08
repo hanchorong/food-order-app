@@ -10,6 +10,8 @@ const MealItemForm = (props) => {
     e.preventDefault();
     const amountInputValue = amountInputRef.current.value;
     const amountInputNumber = +amountInputValue;
+
+    props.onAddCart(amountInputNumber);
   };
   return (
     <form className={classes.form} onSubmit={submitHandler}>
