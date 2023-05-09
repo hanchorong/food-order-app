@@ -3,6 +3,22 @@ import React from "react";
 import classes from "./CartItem.module.css";
 
 const CartItem = (props) => {
-  return <div className={classes["cart-item"]}></div>;
+  const price = props.price.toFixed(2);
+
+  return (
+    <li className={classes["cart-item"]}>
+      <div>
+        <h2>{props.name}</h2>
+        <div>
+          <span className={classes.price}>{price}</span>
+          <span className={classes.amount}>x {props.amount}</span>
+        </div>
+      </div>
+      <div>
+        <button>-</button>
+        <button>+</button>
+      </div>
+    </li>
+  );
 };
 export default CartItem;
