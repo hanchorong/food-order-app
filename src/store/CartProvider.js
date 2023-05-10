@@ -15,8 +15,7 @@ const cartReducer = (state, action) => {
     const existingCartItemIndex = state.items.findIndex(
       (item) => item.id === action.item.id
     ); //현재 items 의 아이디와 새로 넣어지는 아이템의 아이디가 같은게 있냐?
-    //만족하는 요소가 없음면 -1
-
+    //만족하는 요소가 없음면 -1, this +add버튼을 누른 현재 id와 같은 id가 있으면 그 index번호를 찾아줌.
     const existingCartItem = state.items[existingCartItemIndex];
 
     let updatedItem;
@@ -32,7 +31,6 @@ const cartReducer = (state, action) => {
     } else {
       updatedItems = state.items.concat(action.item);
       //중복아이디가 아니라면 기존 items와 액션 아이템을 한 배열에 합쳐서 반환해
-      console.log(updatedItems);
     }
 
     return {
@@ -41,6 +39,31 @@ const cartReducer = (state, action) => {
     };
   }
 
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+    const existingCartItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingCartItem.price;
+
+    let updatedItems;
+    console.log(existingCartItem.amount);
+    if (existingCartItem.amount === 1) {
+      updatedItems = state.items.filter((item) => item.id !== action.id);
+    } else {
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount - 1,
+      };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
   return defaultCartState;
 };
 
